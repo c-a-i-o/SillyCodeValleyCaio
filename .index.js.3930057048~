@@ -1,0 +1,172 @@
+// the workshop game engine
+const engine = require('workshop-engine');
+
+// game variables
+let playerAlias;          // player alias
+let userStory = false;    // if you currently have a user story
+let userStoryHours = 4;   // how many hours you need to finish the current user story
+let movedToDone = 1;      // how many user stories you've moved to "Done"
+let algorithm = false;    // compression algorithm
+let antonCleaned = false; // if anton's storage was cleaned
+let pineapples = 4;       // what you'll need to hack Hooli-Con
+let antonDisks = [        // your server's disks
+                     {disk:['□137839', '903792', '092384']},
+                     {disk:['2389372', '□20982□30', '□390283']},
+                     {disk:['□8948□49', '432984', '238749']}
+                  ];
+const hooliConSections = ['NORTH', 'SOUTH', 'EAST', 'WEST']; // the sections of Hooli-Con
+
+/*
+Who are you?    *name*
+Are you to start playing? *yes/no*
+
+-----------------------
+Choose an option:
+  type: 'stage',
+    name: 'Workstation'
+    name: 'Scrum Board'
+    name: 'Anton'
+    name: 'Hacker Hostel'
+    name: 'Holli-Con'
+    name: 'Quit'
+*/
+
+
+
+
+console.log(" ");
+console.log("função engine: ");  //mostrar o que tem na engine
+console.log(engine);
+console.log(" ");
+
+
+
+
+engine.run();  //inicia o game
+
+
+
+
+
+// create a new game stage named Workshop 
+const stage = engine.create({
+    type: 'before',
+    name: 'Workshop'
+});
+
+
+
+// show a nice banner before the stage is executed
+////stage.executeBefore(function() {
+console.log(" ");
+    engine.showBanner('SillyCode Valley');
+    console.log('Welcome to the workshop, young <Beta Code Cadet>');
+console.log(" ");
+////});
+
+
+
+
+// create a new game stage named Workshop 
+const Workstation = engine.create ({
+          type: 'stage',
+          name: 'Workstation'
+});
+const ScrumBoard = engine.create({ 
+  type: 'stage', 
+  name: 'Scrum Board'
+ });
+const Anton = engine.create({ 
+  type: 'stage', 
+  name: 'Anton'
+ });
+const HackerHostel = engine.create({ 
+  type: 'stage', 
+  name: 'Hacker Hostel'
+ });
+const HolliCon = engine.create({ 
+  type: 'stage', 
+  name: 'Holli-Con'
+ });
+const Quit = engine.create({ 
+  type: 'stage', 
+  name: 'Quit'
+ });
+
+
+//engine.setMenuPrompt();
+
+
+if (stage = ) {
+            console.log('Great, let\'s get some coding done!');
+        } else {
+            console.log('Get lost...');
+        }
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+// show a nice banner before the stage is executed
+stage.executeBefore(function() {
+    engine.showBanner('SillyCode Valley');
+    console.log('Welcome to the workshop, young <Beta Code Cadet>');
+});
+
+
+*/
+
+
+
+
+
+
+
+
+// create a stage
+const betaCodeCadet = engine.create({
+    type: 'before',
+    name: 'Info \'bout <Beta Code Cadet>'
+});
+
+
+
+// add a question to that same stage
+betaCodeCadet.addQuestion({
+    type: 'confirm',
+    message: 'Are you the coder we\'re looking for?',
+    action: function(answer) {
+        if (answer) {
+            console.log('Great, let\'s get some coding done!');
+        } else {
+            console.log('Get lost...');
+        }
+    }
+});
+
+
+// adds a question to an already existing stage
+betaCodeCadet.addQuestion({
+    type: 'input',
+    message: 'What\'s your favorite programming language?',
+    validator: function(answer) {
+        if (answer !== 'JavaScript') {
+            return 'That\'s not the answer I am looking for'
+        }
+    },
+    action: function(answer) {
+        console.log('JavaScript too? This could be the beginning of a beautiful friendship!');
+    }
+});
+
+
+// Enough playing, lets finish it!                    
+//engine.quit();

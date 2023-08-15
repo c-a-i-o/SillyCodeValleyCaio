@@ -1,0 +1,451 @@
+
+
+
+
+
+
+
+
+
+------------------------------------------------------
+função engine._: 
+{
+  showBanner: [Function: show],
+  create: [Function: create],
+  setMenuPrompt: [Function: setMenuPrompt],
+  run: [Function: run],
+  quit: [Function: quit]
+}
+------------------------------------------------------
+ 
+função stage._: 
+{
+  name: 'Workshop',
+  executeBefore: [Function: executeBefore],
+  executeAfter: [Function: executeAfter],
+  addQuestion: [Function: addQuestion],
+  questions: []
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+Who are you?    *name*
+Are you to start playing? *yes/no*
+
+-----------------------
+Choose an option:
+  type: 'stage',
+    name: 'Workstation'
+    name: 'Scrum Board'
+    name: 'Anton'
+    name: 'Hacker Hostel'
+    name: 'Holli-Con'
+    name: 'Quit'
+*/
+
+
+
+
+
+//engine.showBanner('¯\\_( °_-_° )_/¯');
+
+
+
+
+
+
+
+
+
+
+
+JavaScript Objects
+Container of key/value pairs
+
+// empty object
+const empty = {};
+
+// object with some properties
+const world = {
+    name: 'sillyCodeValley',
+    description: 'A place where silly code gets written'
+}
+
+// object properties accessed using dot notation
+console.log(world.name + ': ' + world.description);
+
+------------------------------------------------------------
+
+Objects and Arrays
+Store an Array inside an Object
+
+const objectWithArray = {
+    world: 'sillyCodeValley',
+    stages: ['Scrum Board', 'Workstation', 'Anton', 'Hacker Hostel', 'Hooli-Con']
+};
+
+Store Objects inside an Array
+
+const stages = [{
+    name: 'Hooli-Con',
+    description: 'Where you hack the convention'
+}, {
+    name: 'Anton',
+    description: 'Where you can maintain your server'
+}];
+
+------------------------------------------------------------
+Objects and Functions
+Objects can contain functions as values
+
+const engine = {
+    showBanner: function(text) {
+        console.log('#### ' + text.toUpperCase() + ' ####');
+    }
+};
+
+engine.showBanner('Welcome'); // #### WELCOME ####
+
+
+
+------------------------------------------------------------
+Objects and Functions
+Objects can contain functions as values
+
+const engine = {
+    showBanner: function(text) {
+        console.log('#### ' + text.toUpperCase() + ' ####');
+    }
+};
+
+engine.showBanner('Welcome'); // #### WELCOME ####
+
+
+
+------------------------------------------------------------
+Functions as Arguments
+In JavaScript, functions can be passed as arguments to other functions
+
+// declare a function for later execution
+function print(element) {
+    console.log(element);
+}
+
+// we might need this one as well
+function addAndPrint(element) {
+    console.log(element + 1);
+}
+
+// perform any type of action on each element of the array
+function forEach(array, action) {
+    for (let i = 0; i < array.length; i++) {
+        action(array[i]);
+    }
+}
+
+// execute some actions for each array element 
+forEach([1,2,3], print);
+forEach([1,2,3], addAndPrint);
+
+
+------------------------------------------------------------
+2
+------------------------------------------------------------
+Importing the Game Engine
+Previously written code can be reused by importing existing objects
+
+// import the engine object
+const engine = require('workshop-engine');
+
+// use the engine object to show a pretty banner in your terminal
+engine.showBanner('Welcome <Beta Code Cadet>');
+
+
+
+------------------------------------------------------------
+Game Creation
+Games are composed of stages, so let's create one!
+
+// create a new game stage named Workshop 
+const stage = engine.create({
+    type: 'stage',
+    name: 'Workshop'
+});
+
+// show a nice banner before the stage is executed
+stage.executeBefore(function() {
+    engine.showBanner('Welcome to the workshop, young <Beta Code Cadet>');
+});
+
+
+
+------------------------------------------------------------
+Game Termination
+You can terminate your game at any time by calling the quit method:
+
+// Enough playing, lets finish it!                    
+engine.quit();
+
+
+
+------------------------------------------------------------
+Game Stage
+Process player input and execute game logic
+
+// create a new game stage, can be one of (before, stage, or after)
+const workshop = engine.create({ 
+type: 'stage', 
+name: 'Workshop' 
+});
+
+// show a message before executing the stage
+workshop.executeBefore(function() {
+    console.log('Entering Stage...');
+});
+
+// add questions to the workshop stage
+workshop.addQuestion(/* ... */);
+workshop.addQuestion(/* ... */);
+workshop.addQuestion(/* ... */);
+
+// show a message after the stage is done
+workshop.executeAfter(function() {
+    console.log('Leaving Stage...');
+});
+
+
+
+------------------------------------------------------------
+Confirm Prompts
+Used to get a positive or negative confirmation
+
+// create a stage
+const betaCodeCadet = engine.create({
+    type: 'before',
+    name: 'Info \'bout <Beta Code Cadet>'
+});
+
+// add a question to that same stage
+betaCodeCadet.addQuestion({
+    type: 'confirm',
+    message: 'Are you the coder we\'re looking for?',
+    action: function(answer) {
+        if (answer) {
+            console.log('Great, let\'s get some coding done!');
+        } else {
+            console.log('Get lost...');
+        }
+    }
+});
+
+
+
+------------------------------------------------------------
+Input Prompts
+Used to get user input
+
+// adds a question to an already existing stage
+betaCodeCadet.addQuestion({
+    type: 'input',
+    message: 'What\'s your favorite programming language?',
+    validator: function(answer) {
+        if (answer !== 'JavaScript') {
+            return 'That\'s not the answer I am looking for'
+        }
+    },
+    action: function(answer) {
+        console.log('JavaScript too? This could be the beginning of a beautiful friendship!');
+    }
+});
+
+
+
+------------------------------------------------------------
+List Prompts
+Present a list of options to the player
+
+betaCodeCadet.addQuestion({
+    type: 'list',
+    message: 'Red or Blue pill?',
+    options: ['Red', 'Blue'],
+    action: function(answer) {
+        console.log('The color of your pill is ', answer);
+    }
+});
+
+
+
+------------------------------------------------------------
+Abort Stage Execution
+Stage Execution can be terminated at any time
+by returning false in any stage questions or procedures
+
+workshop.executeBefore(function() {
+    if (!codeChallenge) {
+        console.log('You can not participate in this workshop!');
+        return false;
+    }
+});
+
+
+
+------------------------------------------------------------
+
+
+//  delay no codigo - não funciona muito bem, tem falhas. //
+    
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
+const repeatedGreetings = async () => {
+  await sleep(1000)
+  
+  console.log("1")
+  await sleep(1000)
+  
+  console.log("2")
+  await sleep(1000)
+
+   console.log("3")
+  await sleep(1000)
+ console.log("Start")
+}
+
+repeatedGreetings()
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+function Validation() {
+    valid = true;
+    if ( document.form-validate == "" )
+    {
+        alert ( "Please fill in the 'Your Name' box." );
+        valid = false;
+    }
+    return valid;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
